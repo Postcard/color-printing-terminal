@@ -1,0 +1,18 @@
+<html>
+<head>
+  <title>Figure color printer</title>
+</head>
+<body>
+  <h1>Figure color printer using a keyboard !</h1>
+  <div id="keyboard_output"></div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+
+    socket.on('data', function (data) {
+        console.log(data);
+        $('#keyboard_output').append(data);
+    });
+  </script>
+</body>

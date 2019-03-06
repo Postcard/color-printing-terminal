@@ -1,0 +1,29 @@
+{
+  "name": "color-printing-terminal",
+  "version": "1.0.0",
+  "description": "Terminal with color printer and keyboard for https://figure.co/ pics.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Postcard/color-printing-terminal.git"
+  },
+  "keywords": [
+    "nodejs",
+    "expressjs"
+  ],
+  "author": "Alexis Pibrac <alexis.pibrac@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Postcard/color-printing-terminal/issues"
+  },
+  "homepage": "https://github.com/Postcard/color-printing-terminal#readme",
+  "dependencies": {
+    "express": "*",
+    "node-hid-stream": "^1.0.0",
+    "socket.io": "^2.1.1"
+  }
+}
