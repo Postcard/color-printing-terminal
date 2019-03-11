@@ -1,14 +1,59 @@
-FROM resin/%%BALENA_MACHINE_NAME%%-node:6-slim
+FROM resin/%%BALENA_MACHINE_NAME%%-python:2.7
 
+MAINTAINER Alexis Pibrac <alexis.pibrac@gmail.com>
+
+ENV DEVICE_TYPE=%%RESIN_MACHINE_NAME%%
+
+ENV INITSYSTEM on
+
+RUN mkdir -p /usr/src/app/
+WORKDIR /usr/src/app/
+
+# base packages for cups
 RUN apt-get update && apt-get install -yq \
-    python build-essential libusb-1.0-0-dev \
-    libudev-dev && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+    build-essential \
+    libusb-1.0-0-dev \
+    libudev-dev \
+    libjpeg-dev \
+    libgif-dev \
+    cups \
+    libcups2-dev \
+    cups-filters \
+    libgutenprint2 \
+    avahi-daemon \
+    avahi-utils \
+    libnss-mdns \
+    libdbus-1-dev \
+    imagemagick \
+    mlocate \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && systemctl enable avahi-daemon
 
-WORKDIR /usr/src/app
+# correct drivers are in testing version
+ADD apt_config /etc/apt
+RUN apt-get update && apt-get install printer-driver-gutenprint/testing
 
+# add node
+ENV NODE_VERSION 6.9.1
+RUN curl -SLO "http://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
+    && echo "a9d9e6308931fa2a2b0cada070516d45b76d752430c31c9198933c78f8d54b17  node-v$NODE_VERSION-linux-x64.tar.gz" | sha256sum -c - \
+    && tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
+    && rm "node-v$NODE_VERSION-linux-x64.tar.gz" \
+    && npm config set unsafe-perm true -g --unsafe-perm \
+    && rm -rf /tmp/*
+
+
+# create an admin user for cups and configure
+RUN useradd -ms /bin/bash cups_admin && echo 'cups_admin:cups' | chpasswd && usermod -a -G lpadmin cups_admin
+ADD cups_config /etc/cups
+
+# python packages
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+
+# node packages
 COPY package.json package.json
-
 RUN JOBS=MAX npm install -g node-gyp
 RUN JOBS=MAX npm install node-hid --build-from-source
 RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf /tmp/*
@@ -17,4 +62,7 @@ COPY . ./
 
 ENV UDEV=1
 
+COPY start.sh ./
+RUN chmod +x start.sh
 CMD ["npm", "start"]
+CMD ["/bin/bash", "start.sh"]
