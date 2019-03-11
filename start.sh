@@ -28,4 +28,5 @@ lpadmin \
 
 lpoptions -p DP_DS620 -l
 
-python -m dnp_ds620_cups
+python -m dnp_ds620_cups &
+npm start

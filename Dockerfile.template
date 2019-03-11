@@ -61,8 +61,8 @@ RUN JOBS=MAX npm install --production --unsafe-perm && npm cache clean && rm -rf
 COPY . ./
 
 ENV UDEV=1
+ENV AWS_SQS_REGION eu-west-1
 
 COPY start.sh ./
 RUN chmod +x start.sh
-CMD ["npm", "start"]
 CMD ["/bin/bash", "start.sh"]

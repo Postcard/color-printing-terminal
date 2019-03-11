@@ -24,7 +24,7 @@ TOKEN = get_env_setting('TOKEN')
 
 API_HOST = get_env_setting('API_HOST')
 
-AWS_SQS_REGION = 'eu-west-1'
+AWS_SQS_REGION = get_env_setting('AWS_SQS_REGION')
 
 AWS_ACCESS_KEY_ID = get_env_setting('AWS_ACCESS_KEY_ID')
 
