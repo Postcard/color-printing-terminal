@@ -28,5 +28,10 @@ lpadmin \
 
 lpoptions -p DP_DS620 -l
 
+export SQS_QUEUE_NAME="$(python get_printer_queue_name.py)"
+
+echo 'there'
+env
+
 python -m dnp_ds620_cups &
 npm start

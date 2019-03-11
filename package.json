@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node print_selector_app/script.js"
   },
   "repository": {
     "type": "git",
@@ -23,8 +23,7 @@
   "homepage": "https://github.com/Postcard/color-printing-terminal#readme",
   "dependencies": {
     "aws-sdk": "^2.418.0",
-    "express": "*",
-    "node-hid-stream": "^1.0.0",
-    "socket.io": "^2.1.1"
+    "figure-sdk": "^0.2.32",
+    "node-hid-stream": "^1.0.0"
   }
 }

@@ -18,6 +18,8 @@ def get_env_setting(setting, default=None):
 
 RESIN_UUID = get_env_setting('RESIN_DEVICE_UUID')
 
+SQS_QUEUE_NAME = get_env_setting('SQS_QUEUE_NAME')
+
 PRINTER_NAME = "DP_DS620"
 
 TOKEN = get_env_setting('TOKEN')
