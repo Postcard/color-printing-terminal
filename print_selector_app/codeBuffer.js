@@ -7,7 +7,7 @@ class Buffer {
 
   push(letter){
     this.code += letter;
-    if(code.length === this.CODE_LENGTH) {
+    if(this.code.length === Buffer.CODE_LENGTH) {
       this.onSubmitCode(this.code);
       this.reset();
     }

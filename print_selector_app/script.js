@@ -1,46 +1,38 @@
-var KeyboardCharacters = require('node-hid-stream').KeyboardCharacters;
+var KeyboardCharacters = require('node-hid-stream').Keyboard;
 var characters = new KeyboardCharacters({ vendorId: 0x0a81, productId: 0x0205 });
-var Figure = require('figure-sdk');
-var printerQueue = require('./printerQueue')
-var Buffer = require('./codeBuffer')
-
-let figure = Figure({
-  host: process.env.API_HOST,
-  protocol: 'https',
-  token: process.env.token
-});
-
-console.log(figure.portraits.get("ZZZZZ"))
+var figure = require('figure-sdk')({token: process.env.TOKEN});
+var printerQueue = require('./printerQueue');
+var Buffer = require('./codeBuffer');
+var toAzerty = require('./azertyKeyMap');
 
 var code = new Buffer({
   onSubmitCode: function(str){
-    console.log('GOT IT BROOOOO', str);
-    printerQueue.push({
-      portrait: {
-        "code": "ZZZZZ",
-        "picture_1280": "https://figure-production.s3.amazonaws.com/media/snapshots/67_20150711173246_GMS2Sny_Sm29maC_yO6IklSr.jpg",
-        "place": {
-            "id": 1,
-            "name": "Point Éphémère",
-            "slug": "point-ephemere",
-            "google_places_id": "ChIJT78RxHVu5kcRZoDCLEKfs3M",
-            "tz": "Europe/Paris",
-            "color_portraits": false
-        },
-        "event": null,
-        "taken_str": "01/01/2015 01:45"
+    console.log('New code submitted: ', str);
+
+    figure.portraits.get(str, function(error, portrait){
+      if(error) {
+        console.log("Error: ", error)
+      } else {
+        printerQueue.push({
+          portrait: portrait
+        });
       }
     });
   }
 })
 
 characters.on("data", function(data) {
-  console.log(data);
+  let letters = data.charCodes.filter(l => l);
+  if(letters.length === 1) {
+    return code.push(toAzerty(letters[0].toUpperCase()));
+  }
 
-  if(data.length === 1){
-    var char = data.charAt(0);
-    if(/[a-zA-Z]/.test(char)) {
-      code.push(data.toUpperCase());
-    }
+  if(data.keyCodes.includes(40 /* enter */) ||
+    data.keyCodes.includes(41 /* escape */)
+  ) {
+    return code.reset();
+  }
+  if(data.keyCodes.includes(42 /* delete */)) {
+    return code.delete();
   }
 });
