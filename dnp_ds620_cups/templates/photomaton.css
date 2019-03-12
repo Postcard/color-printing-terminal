@@ -1,0 +1,55 @@
+*,
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  				appearance: none;
+  	 -moz-appearance: none;
+  -webkit-appearance: none;
+  padding: 0px;
+  margin: 0px;
+}
+.poster{
+	position: relative;
+	height: 150mm;
+	width: 100mm;
+  padding: 5mm;
+	font-family: "Maison Mono", sans-serif;
+	font-size: 12pt;
+	line-height: 1.5em;
+  color:#000000;
+  overflow: hidden;
+}
+.picture{
+  position: relative;
+  margin: 5mm;
+}
+.picture img{
+	width: 100%;
+}
+.caption{
+	position: absolute;
+	left: 6.640625%;
+	bottom: 5%;
+}
+.caption p{
+  color:#fff;
+	font-size: 0.6em;
+	line-height: 1.666666em;
+	font-family: "Maison Mono", sans-serif;
+}
+.footer_container{
+  width: 100%;
+  position: absolute;
+}
+.footer{
+	width: 100%;
+	position: relative;
+  bottom: 4mm;
+  text-align: center;
+  font-size: 0.5em;
+}
+.footer img{
+  width: 45%;
+}

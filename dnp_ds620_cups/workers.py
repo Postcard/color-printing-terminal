@@ -4,12 +4,14 @@ import time
 import json
 import tempfile
 import io
-import requests
+import subprocess
+from os.path import abspath, dirname, join
 
 import cups
 import boto3
 
 import settings
+from renderer import render
 
 logger = logging.getLogger(__name__)
 logging.getLogger('boto3').setLevel(logging.CRITICAL)
@@ -55,27 +57,17 @@ class CUPSWorker(StoppableThreadMixin, threading.Thread):
         printer = printers.get(settings.PRINTER_NAME)
         if not printer:
             raise PrinterNotFoundException()
-        conn.printFile(settings.PRINTER_NAME, file_path, 'poster', {'PageSize': 'w288h432'})
+        conn.printFile(settings.PRINTER_NAME, file_path, 'photomaton', {
+            'PageSize': 'w288h432',
+            'StpLaminate': 'Matte'
+        })
 
     def handle_print_job(self, print_job):
-        portrait = print_job['portrait']
-        picture_url = portrait['picture_1280']
-        code = portrait['code']
-        place = portrait.get('place')
-        place_name = place['name'] if place else None
-        event = portrait.get('event')
-        event_name = event['name'] if event else None
-        taken_str = portrait['taken_str']
-        context = {
-            'picture_url': picture_url,
-            'code': code,
-            'place_name': place_name,
-            'event_name': event_name,
-            'taken_str': taken_str,
-        }
-        r = requests.get(picture_url)
-        with tempfile.NamedTemporaryFile() as f:
-            f.write(r.content)
+        html = render(print_job)
+        with tempfile.NamedTemporaryFile(suffix='.pdf') as f:
+            script_path = join(abspath(dirname(__file__)), 'phantom.js')
+            args = [settings.PHANTOMJS_PATH, script_path, html, f.name]
+            subprocess.check_output(args)
             self._print(f.name)
 
     def run(self):

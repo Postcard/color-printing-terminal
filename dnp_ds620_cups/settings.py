@@ -16,6 +16,8 @@ def get_env_setting(setting, default=None):
         error_msg = "Set the %s env variable" % setting
         raise ImproperlyConfigured(error_msg)
 
+PROJECT_PATH = '/usr/src/app/dnp_ds620_cups'
+
 RESIN_UUID = get_env_setting('RESIN_DEVICE_UUID')
 
 SQS_QUEUE_NAME = get_env_setting('SQS_QUEUE_NAME')
@@ -31,3 +33,5 @@ AWS_SQS_REGION = get_env_setting('AWS_SQS_REGION')
 AWS_ACCESS_KEY_ID = get_env_setting('AWS_ACCESS_KEY_ID')
 
 AWS_SECRET_ACCESS_KEY = get_env_setting('AWS_SECRET_ACCESS_KEY')
+
+PHANTOMJS_PATH = '/usr/local/bin/phantomjs'
