@@ -8,6 +8,7 @@ var printerQueue = require("./printerQueue");
 var Buffer = require("./codeBuffer");
 var toAzerty = require("./azertyKeyMap");
 var sound = require("./soundPlayer");
+var timer;
 
 var code = new Buffer({
   onSubmitCode: function(str) {
@@ -27,7 +28,16 @@ var code = new Buffer({
   }
 });
 
+function resetTimer() {
+  clearTimeout(t);
+  t = setTimeout(function() {
+    code.reset();
+    sound.play("reset.wav");
+  }, 5000);
+}
+
 characters.on("data", function(data) {
+  resetTimer();
   let letters = data.charCodes.filter(l => l);
   if (letters.length === 1) {
     sound.play("touche.wav");
