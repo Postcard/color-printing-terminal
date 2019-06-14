@@ -3,3 +3,4 @@ Jinja2==2.9.6
 figure-sdk==0.2.4
 pycups==1.9.73
 pypdf2==1.26.0
+PyAudio==0.2.11

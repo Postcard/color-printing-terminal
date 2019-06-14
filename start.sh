@@ -14,10 +14,13 @@ lpadmin \
     -o 'StpImageType=Photo' \
     -E
 
+# Activate alsamixer sound
+amixer set Master 50%
+
 # lpoptions -p DP_DS620 -l
 
 # Query queue name for both scripts (because only pyton's sdk have the printer discovery feature)
-export SQS_QUEUE_NAME="$(python get_printer_queue_name.py)"
+export SQS_QUEUE_NAME="$(python scripts/get_printer_queue_name.py)"
 
 python -m dnp_ds620_cups &
 npm start
