@@ -1,11 +1,10 @@
 # color printing terminal
 
 Uploader les sons dans `/sounds` sur github.com
-
-Success : ok.wav
-Error : erreur.wav
-Touch : touche.wav
-escape ou enter : escape_enter.wav
+- Success : ok.wav
+- Error : erreur.wav
+- Touch : touche.wav
+- escape ou enter : escape_enter.wav
 
 Déployer sur https://semaphoreci.com/postcard/color-printing-terminal :
 - attendre que "Branches > master : PASSED" en vert
