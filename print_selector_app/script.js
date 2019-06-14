@@ -38,7 +38,7 @@ characters.on("data", function(data) {
     data.keyCodes.includes(40 /* enter */) ||
     data.keyCodes.includes(41 /* escape */)
   ) {
-    sound.play("erreur.wav");
+    sound.play("escape_enter.wav");
     return code.reset();
   }
 
