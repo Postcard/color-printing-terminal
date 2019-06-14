@@ -9,7 +9,7 @@ JINJA_ENV = Environment(
 
 def render(print_job):
     portrait = print_job['portrait']
-    picture_url = portrait['picture_color_1280']
+    picture_url = portrait[IMAGE_TO_PRINT]
     taken_str = portrait['taken_str']
 
     place = portrait.get('place')
