@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Postcard/color-printing-terminal#readme",
   "dependencies": {
-    "aws-sdk": "^2.418.0",
+    "aws-sdk": "^2.814.0",
     "figure-sdk": "^0.2.32",
     "node-hid-stream": "^1.0.0"
   }
